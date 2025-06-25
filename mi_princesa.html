@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Princesa ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Partículas flotantes románticas */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.7);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Sección de bienvenida */
+        .welcome-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+        }
+
+        .welcome-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .enter-button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .enter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
+        }
+
+        /* Secciones principales (ocultas inicialmente) */
+        .content-sections {
+            display: none;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: #4a4a4a;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Navegación */
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .nav-button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Sección de coronación */
+        .coronation-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coronation-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        /* Foto de la princesa */
+        .princess-photo {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 350px;
+            border-radius: 20px;
+            background-image: url('TU_FOTO_AQUI.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid rgba(255,255,255,0.3);
+            opacity: 0;
+            animation: appearPrincess 2s ease-in-out 1s forwards;
+        }
+
+        /* Efecto de brillo alrededor de la foto */
+        .princess-photo::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            border-radius: 25px;
+            z-index: -1;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.02); }
+        }
+
+        /* Corona flotante */
+        .crown {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 60px;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            opacity: 0;
+            animation: crownFloat 4s ease-in-out 3s forwards;
+        }
+
+        /* Partículas doradas */
+        .golden-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffd700, #ffed4e);
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        /* Texto de coronación */
+        .coronation-text {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0;
+            animation: textAppear 2s ease-in-out 6s forwards;
+        }
+
+        .coronation-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .coronation-message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        /* Animaciones */
+        @keyframes appearPrincess {
+            0% { opacity: 0; transform: translateX(-50%) translateY(50px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes crownFloat {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(0) scale(0.5); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(-20px) scale(1.1); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(-80px) scale(1); 
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(0); }
+            50% { opacity: 1; transform: translateY(-100px) scale(1); }
+        }
+
+        @keyframes textAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sección mensaje de amor */
+        .love-message-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #4a4a4a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .love-title {
+            font-size: 3rem;
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .love-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .typewriter {
+            border-right: 3px solid #d63384;
+            animation: blink 1s infinite;
+        }
+
+        .love-signature {
+            font-size: 1.6rem;
+            color: #d63384;
+            font-style: italic;
+            text-align: right;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeInSignature 1s ease-in-out 15s forwards;
+        }
+
+        /* Corazones flotantes para esta sección */
+        .love-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .love-heart {
+            position: absolute;
+            color: rgba(214, 51, 132, 0.3);
+            font-size: 30px;
+            animation: floatLove 8s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: #d63384; }
+            51%, 100% { border-color: transparent; }
+        }
+
+        @keyframes fadeInSignature {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatLove {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-50px) rotate(180deg); opacity: 0.7; }
+        }
+
+        /* Estilos para promesas y futuro */
+        .promises-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #4a4a4a;
+        }
+
+        .future-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #4a4a4a;
+        }
+
+        .content-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .content-box h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .content-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+
+        .content-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text strong {
+            color: #d63384;
+        }
+
+        /* Sección de celebración final */
+        .final-celebration-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .celebration-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .celebration-title {
+            font-size: 3.5rem;
+            color: #ffd700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            margin-bottom: 3rem;
+            animation: celebrationPulse 2s ease-in-out infinite;
+        }
+
+        .celebration-content {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 3rem;
+        }
+
+        .celebration-message p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .big-text {
+            font-size: 1.8rem !important;
+            color: #ffd700;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .final-declaration {
+            margin-top: 2rem;
+            padding: 20px;
+            background: rgba(255,215,0,0.2);
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+        }
+
+        .final-declaration h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .final-declaration h3:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .final-declaration h3:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .celebration-footer {
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        .signature {
+            color: #ffd700;
+            font-size: 1.4rem !important;
+            margin-top: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Fuegos artificiales */
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: explode 3s ease-out infinite;
+        }
+
+        /* Animaciones de celebración */
+        @keyframes celebrationPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); text-shadow: 0 0 30px rgba(255,215,0,0.8); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes explode {
+            0% { 
+                opacity: 1; 
+                transform: scale(0) rotate(0deg); 
+                background: #ffd700; 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1) rotate(180deg); 
+                background: #ff69b4; 
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(0) rotate(360deg); 
+                background: #00ff00; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Música de fondo -->
+    <audio id="backgroundMusic" loop preload="auto" controls style="display: none;">
+        <source src="musica_romantica.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Control de música visible -->
+    <div id="musicControl" style="position: fixed; top: 20px; left: 20px; z-index: 1001; display: none;">
+        <button onclick="toggleMusic()" style="background: rgba(255,255,255,0.9); border: none; padding: 10px 15px; border-radius: 25px; cursor: pointer; backdrop-filter: blur(10px);">
+            🎵 <span id="musicStatus">Pausar música</span>
+        </button>
+    </div>
+
+    <!-- Corazones flotantes -->
+    <div class="floating-hearts" id="heartsContainer"></div>
+
+    <!-- Navegación -->
+    <div class="navigation" id="navigation">
+        <button class="nav-button" onclick="showSection('welcome')">Inicio</button>
+        <button class="nav-button" onclick="showSection('love-message')">Mensaje de Amor</button>
+        <button class="nav-button" onclick="showSection('coronation')">👑 Mi Reina</button>
+        <button class="nav-button" onclick="showSection('promises')">Mis Promesas</button>
+        <button class="nav-button" onclick="showSection('future')">Nuestro Futuro</button>
+        <button class="nav-button" onclick="showSection('final-celebration')">🎉 Felicitaciones</button>
+    </div>
+
+    <div class="main-container">
+        <!-- Sección de Bienvenida -->
+        <section class="welcome-section" id="welcome">
+            <h1 class="welcome-title">Para Mi Princesa</h1>
+            <p class="welcome-subtitle">Un mensaje especial en el Día de la Novia</p>
+            <button class="enter-button" onclick="enterSite()">Entrar a Nuestro Mundo ❤️</button>
+        </section>
+
+        <!-- Secciones de contenido -->
+        <div class="content-sections" id="contentSections">
+            <section class="section love-message-section" id="love-message">
+                <!-- Corazones flotantes para esta sección -->
+                <div class="love-hearts" id="loveHearts"></div>
+                
+                <div class="love-container">
+                    <h2 class="love-title">Mi Mensaje de Amor Para Ti 💕</h2>
+                    
+                    <div class="love-text">
+                        <p id="typewriterText" class="typewriter"></p>
+                        
+                        <div class="love-signature">
+                            Con todo mi amor,<br>
+                            Tu novio que te ama infinitamente ❤️
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section coronation-section" id="coronation">
+                <h2 style="margin-bottom: 3rem;">Eres Mi Reina</h2>
+                
+                <div class="coronation-container">
+                    <!-- Partículas doradas -->
+                    <div class="golden-particles" id="goldenParticles"></div>
+                    
+                    <!-- Foto de la princesa -->
+                    <div class="princess-photo"></div>
+                    
+                    <!-- Corona -->
+                    <div class="crown">👑</div>
+                </div>
+
+                <div class="coronation-text">
+                    <h3 class="coronation-title">Te Corono Como Mi Reina</h3>
+                    <p class="coronation-message">
+                        Desde el primer día que te conocí, supe que eras especial.<br>
+                        Hoy, en el Día de la Novia, quiero coronarte oficialmente<br>
+                        como la reina de mi corazón y de todos mis sueños.<br><br>
+                        <strong>Eres y serás siempre mi princesa, mi reina, mi todo. 👑💕</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section class="section promises-section" id="promises">
+                <div class="content-box">
+                    <h2 style="color: #d63384;">Mis Promesas Para Ti 💝</h2>
+                    
+                    <div class="content-text">
+                        <p><strong>💕 Te prometo que iré a verte:</strong><br>
+                        No importa cuánto me cueste, no importa cuánto tarde, pero de que iré, iré. Nada me va a detener de estar contigo.</p>
+                        
+                        <p><strong>🌟 Seré un buen chico para ti:</strong><br>
+                        Quiero ser la mejor versión de mí mismo. Trabajaré cada día en mejorar como persona para ser el hombre que te mereces.</p>
+                        
+                        <p><strong>😊 Te haré feliz:</strong><br>
+                        Tu sonrisa es mi meta diaria. Haré todo lo posible para verte feliz, para apoyarte en tus sueños y estar ahí cuando me necesites.</p>
+                        
+                        <p><strong>👂 Siempre te escucharé:</strong><br>
+                        Quiero ser tu confidente, tu apoyo. Estaré aquí para escucharte, entenderte y acompañarte en todo momento.</p>
+                        
+                        <p><strong>💪 Te apoyaré en todo:</strong><br>
+                        En tus metas, en tus sueños, en los momentos difíciles. Seremos un equipo, juntos podemos lograr cualquier cosa.</p>
+                        
+                        <p><strong>❤️ No te haré sufrir:</strong><br>
+                        Prometo cuidar tu corazón como el tesoro más valioso. Nunca quiero ser la razón de tus lágrimas de tristeza.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section future-section" id="future">
+                <div class="content-box">
+                    <h2 style="color: #e74c3c;">Nuestro Futuro Juntos 🌅</h2>
+                    
+                    <div class="content-text">
+                        <p><strong>✈️ Primero, viajar a Perú:</strong><br>
+                        Quiero conocer tu tierra, respirar el mismo aire que tú, caminar por las calles donde creciste.</p>
+                        
+                        <p><strong>👨‍👩‍👧‍👦 Conocer a tu familia:</strong><br>
+                        Quiero ganarme el cariño de tu familia, que vean que mis intenciones contigo son serias y llenas de amor.</p>
+                        
+                        <p><strong>💋 Nuestro primer beso:</strong><br>
+                        Ese momento mágico que tanto hemos soñado, cuando finalmente nos veamos y podamos expresar nuestro amor cara a cara.</p>
+                        
+                        <p><strong>🚶‍♂️🚶‍♀️ Pasear juntos:</strong><br>
+                        Tomados de la mano, explorando lugares nuevos, creando recuerdos que guardaremos para siempre.</p>
+                        
+                        <p><strong>🏠 Cuando tengamos la oportunidad y la edad, vivir juntos:</strong><br>
+                        Construir nuestro hogar, despertar juntos cada mañana, compartir cada momento del día.</p>
+                        
+                        <p><strong>🌎 Viajar juntos:</strong><br>
+                        Conocer el mundo de la mano, disfrutar aventuras, crear historias que contaremos cuando seamos viejitos.</p>
+                        
+                        <p><strong>💒 Casarnos:</strong><br>
+                        Prometernos amor eterno frente a Dios, la familia y los amigos. Ser oficialmente marido y mujer.</p>
+                        
+                        <p><strong>👶 Tener nuestros hijos:</strong><br>
+                        Formar una hermosa familia, ser padres amorosos y darles la mejor vida posible a nuestros pequeños.</p>
+                        
+                        <p><strong>💝 Ser un buen hombre para ti:</strong><br>
+                        Cada día de mi vida quiero demostrarte que fui la elección correcta, que merezco tu amor y tu confianza.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section final-celebration-section" id="final-celebration">
+                <div class="celebration-container">
+                    <div class="fireworks" id="fireworksContainer"></div>
+                    
+                    <h2 class="celebration-title">¡FELIZ DÍA DE LA NOVIA MI AMOR! 🎉</h2>
+                    
+                    <div class="celebration-content">
+                        <div class="celebration-message">
+                            <p class="big-text">Gracias por existir en mi vida ✨</p>
+                            <p>Gracias por amarme tal como soy, por ser paciente conmigo, por creer en nosotros cuando todo parecía imposible.</p>
+                            <p>Gracias por ser mi luz en los días oscuros, mi sonrisa cuando estoy triste, mi motivación para ser mejor cada día.</p>
+                            <p>Hoy celebro que eres MI NOVIA, que elegiste amarme y construir sueños conmigo.</p>
+                            <div class="final-declaration">
+                                <h3>🎊 ¡QUE VIVA MI PRINCESA! 🎊</h3>
+                                <h3>🇵🇪 ¡QUE VIVA EL AMOR A DISTANCIA! 🇪🇨</h3>
+                                <h3>💕 ¡QUE VIVA NUESTRO AMOR ETERNO! 💕</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="celebration-footer">
+                        <p>Con todo mi corazón en este día tan especial,</p>
+                        <p class="signature">Tu novio que te ama hasta el infinito 🚀❤️</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Variable para controlar si ya se escribió el mensaje
+        let messageWritten = false;
+
+        // Crear corazones flotantes
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['❤️', '💕', '💖', '💝', '💗', '💘'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(heart);
+                
+                // Eliminar el corazón después de la animación
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }, 800);
+        }
+
+        // Función para entrar al sitio
+        function enterSite() {
+            // Reproducir música
+            const music = document.getElementById('backgroundMusic');
+            music.play().then(() => {
+                document.getElementById('musicControl').style.display = 'block';
+            }).catch(e => {
+                console.log('Click en el botón de música para reproducir');
+            });
+            
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('contentSections').style.display = 'block';
+            document.getElementById('navigation').style.display = 'block';
+            showSection('love-message');
+        }
+
+        // Mensaje de amor con efecto typewriter
+        const loveMessage = `Mi amor hermoso,
+
+Quiero que sepas que te amo con toda mi alma y mi corazón. En este Día de la Novia, solo puedo pensar en lo afortunado que soy de tenerte en mi vida.
+
+Sé que estamos lejos, tú en Perú y yo en Ecuador, pero cada día sueño con el momento en que finalmente nos podamos ver. Quiero conocerte en persona, tomarte de la mano, darte el abrazo más fuerte del mundo, acariciar tu rostro y darte ese primer beso que tanto he soñado.
+
+Perdóname por no ser perfecto, por fallar a veces, por ser terco. Sé que no soy el chico perfecto, pero te prometo que mi amor por ti es real y verdadero. Cada día trato de ser mejor persona por ti.
+
+Eres tan especial que fuiste la primera chica de la que le hablé a mi mamá como mi novia. Tardé un poco, pero lo hice porque eres importante para mí, porque esto que tenemos es real , porque eres la mujer de mi vida.
+
+Eres mi princesa peruana, mi amor a distancia, pero sobre todo, eres MI NOVIA. Y eso me hace el hombre más feliz del mundo.
+
+Hoy en tu día quiero que sepas que no hay nada que no haría por ti. Te amo con locura, te extraño cada segundo y no puedo esperar a tenerte entre mis brazos.
+
+¡FELIZ DÍA DE LA NOVIA, MI AMOR HERMOSO!
+
+Tu novio que te ama hasta el infinito y más allá. ❤️`;
+
+        // Función de typewriter
+        function typeWriter(text, element, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Mostrar secciones
+        function showSection(sectionName) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Mostrar la sección seleccionada
+            const selectedSection = document.getElementById(sectionName);
+            if (selectedSection) {
+                selectedSection.style.display = 'flex';
+            }
+
+            // Si es la sección de mensaje de amor y no se ha escrito, escribirlo
+            if (sectionName === 'love-message' && !messageWritten) {
+                setTimeout(() => {
+                    const textElement = document.getElementById('typewriterText');
+                    typeWriter(loveMessage, textElement, 30);
+                    createLoveHearts();
+                    messageWritten = true;
+                }, 500);
+            }
+
+            // Si es la sección de coronación, crear partículas doradas
+            if (sectionName === 'coronation') {
+                createGoldenParticles();
+            }
+
+            // Si es la sección de celebración final, crear fuegos artificiales
+            if (sectionName === 'final-celebration') {
+                createFireworks();
+            }
+        }
+
+        // Crear corazones para la sección de amor
+        function createLoveHearts() {
+            const container = document.getElementById('loveHearts');
+            const hearts = ['💕', '💖', '💗', '💘', '💝'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'love-heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 1500);
+        }
+
+        // Crear partículas doradas
+        function createGoldenParticles() {
+            const container = document.getElementById('goldenParticles');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 3 + 's';
+                    
+                    container.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 6000);
+                }, i * 200);
+            }
+        }
+
+        // Crear fuegos artificiales
+        function createFireworks() {
+            const container = document.getElementById('fireworksContainer');
+            const colors = ['#ffd700', '#ff69b4', '#00ff00', '#ff4500', '#9370db', '#00bfff'];
+            
+            setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    container.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 3000);
+                }
+            }, 2000);
+        }
+
+        // Control de música
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            const status = document.getElementById('musicStatus');
+            
+            if (music.paused) {
+                music.play();
+                status.textContent = 'Pausar música';
+            } else {
+                music.pause();
+                status.textContent = 'Reproducir música';
+            }
+        }
+
+        // Inicializar efectos cuando carga la página
+        window.addEventListener('load', function() {
+            createFloatingHearts();
+        });
+
+        // Reproducir música con interacción del usuario
+        document.addEventListener('click', function() {
+            const music = document.getElementById('backgroundMusic');
+            if (music.paused && document.getElementById('contentSections').style.display === 'block') {
+                music.play().catch(e => console.log('No se pudo reproducir la música automáticamente'));
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
